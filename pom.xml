@@ -1,18 +1,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-	http://maven.apache.org/maven-v4_0_0.xsd">
-	
-	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>put.io.sqc</groupId>
-	<artifactId>scenario-quality-checker</artifactId>
-	
-	<version>1.0</version>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+    http://maven.apache.org/maven-v4_0_0.xsd">
 
-        <properties>
-  		<maven.compiler.target>1.8</maven.compiler.target>
-  		<maven.compiler.source>1.8</maven.compiler.source>
-	</properties>
+    <modelVersion>4.0.0</modelVersion>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <packaging>jar</packaging>
+
+    <groupId>put.io.sqc</groupId>
+    <artifactId>scenario-quality-checker</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>put.io.sqc.ScenarioQualityChecker</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
 
 </project>

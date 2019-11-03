@@ -1,1 +1,3 @@
+put\io\sqc\Scenario.class
 put\io\sqc\ScenarioQualityChecker.class
+put\io\sqc\Step.class
