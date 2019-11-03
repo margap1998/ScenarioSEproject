@@ -7,14 +7,13 @@ Dla analityków dokumentujących wymagania funkcjonalne za pomocą scenariuszy n
 * Kroki mogą zawierać pod-scenariusze (dowolny poziom zagłębień)
 * Kroki mogą się zaczynać od słów kluczowych: IF, ELSE, FOR EACH
 
-# Przykład:
+## Przykład:
 
 * Tytuł: Dodanie książki
 * Aktorzy:  Bibliotekarz
 * Aktor systemowy: System
 
-Kroki scenariusza 
----------------------------------------
+#### Kroki scenariusza 
 * Bibliotekarz wybiera opcje dodania nowej pozycji książkowej
 * Wyświetla się formularz.
 * Bibliotekarz podaje dane książki.
