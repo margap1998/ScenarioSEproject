@@ -3,5 +3,6 @@ pl\put\poznan\scenario\ScenarioQualityChecker.class
 pl\put\poznan\scenario\ScenarioElementVisitor.class
 pl\put\poznan\scenario\ScenarioElement.class
 pl\put\poznan\scenario\Step.class
+pl\put\poznan\scenario\ScenarioNestLimitVisitor.class
 pl\put\poznan\scenario\Scenario.class
 pl\put\poznan\scenario\ScenarioToTextVisitor.class

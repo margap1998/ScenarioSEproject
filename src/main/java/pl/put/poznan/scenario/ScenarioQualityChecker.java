@@ -172,6 +172,35 @@ class ScenarioToTextVisitor implements ScenarioElementVisitor {
     }
 }
 
+class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
+    int nestLimit;
+    int nestLevel;
+
+    @Override
+    public void visit(Step step) {
+        if(nestLevel == nestLimit)
+            step.substeps.clear();
+    }
+
+    @Override
+    public void visit(Scenario scenario) {
+        nestLevel = 0;
+    }
+
+    @Override
+    public void startRecursion() {
+        nestLevel += 1;
+    }
+    @Override
+    public void endRecursion() {
+        nestLevel -= 1;
+    }
+
+    public ScenarioNestLimitVisitor(int limit) {
+        nestLimit = limit-1;
+    }
+}
+
 public class ScenarioQualityChecker {
     public static void main(String args[]) {
         String text;
@@ -194,6 +223,8 @@ public class ScenarioQualityChecker {
             System.out.println(e);
             return;
         }
+
+        scenario.accept(new ScenarioNestLimitVisitor(1));
 
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
