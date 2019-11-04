@@ -9,8 +9,18 @@ import java.util.ArrayList;
 import org.json.JSONArray; 
 import org.json.JSONObject; 
 
+interface ScenarioElement {
+    void accept(ScenarioElementVisitor visitor);
+}
 
-class Step {
+interface ScenarioElementVisitor {
+    void visit(Scenario scenario);
+    void visit(Step step);
+    void startRecursion();
+    void endRecursion();
+}
+
+class Step implements ScenarioElement {
     public String name;
     public ArrayList<Step> substeps;
 
@@ -23,6 +33,18 @@ class Step {
                 JSONObject stepJson = substepsArray.getJSONObject(i);
                 substeps.add(new Step(stepJson));
             }
+        }
+    }
+
+    @Override
+    public void accept(ScenarioElementVisitor visitor) {
+        visitor.visit(this);
+        if(substeps.size() > 0) {
+            visitor.startRecursion();
+            for(int i = 0; i < substeps.size(); i++) {
+                substeps.get(i).accept(visitor);
+            }
+            visitor.endRecursion();
         }
     }
 
@@ -41,7 +63,7 @@ class Step {
     }
 }
 
-class Scenario {
+class Scenario implements ScenarioElement {
     public String title;
     public ArrayList<String> actors;
     public String system;
@@ -66,6 +88,14 @@ class Scenario {
         }
     }
 
+    @Override
+    public void accept(ScenarioElementVisitor visitor) {
+        visitor.visit(this);
+        for(int i = 0; i < steps.size(); i++) {
+            steps.get(i).accept(visitor);
+        }
+    }
+
     public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("title", title);
@@ -80,6 +110,29 @@ class Scenario {
         jo.put("steps", steps_array);
 
         return jo;
+    }
+}
+
+class ScenarioStepCountVisitor implements ScenarioElementVisitor {
+    int result;
+
+    @Override
+    public void visit(Step step) {
+        result++;
+    }
+
+    @Override
+    public void visit(Scenario scenario) {
+        result = 0;
+    }
+
+    @Override
+    public void startRecursion() {}
+    @Override
+    public void endRecursion() {}
+
+    public int getResult() {
+        return result;
     }
 }
 
@@ -105,6 +158,9 @@ public class ScenarioQualityChecker {
             return;
         }
 
+        ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
+        scenario.accept(stepCountVisitor);
+        System.out.println(stepCountVisitor.getResult());
         System.out.println(scenario.toJSON().toString(4));
     }
 }
