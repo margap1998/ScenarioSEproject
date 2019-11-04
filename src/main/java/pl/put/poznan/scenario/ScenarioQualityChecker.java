@@ -1,4 +1,4 @@
-package put.io.sqc;
+package pl.put.poznan.scenario;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -136,6 +136,42 @@ class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     }
 }
 
+class ScenarioToTextVisitor implements ScenarioElementVisitor {
+    StringBuilder result;
+    ArrayList<Integer> stepNr;
+
+    @Override
+    public void visit(Step step) {
+        int lastIndex = stepNr.size()-1;
+        stepNr.set(lastIndex, stepNr.get(lastIndex)+1);
+
+        for(int i = 0; i < stepNr.size(); i++) {
+            result.append(stepNr.get(i) + ".");
+        }
+        result.append(" " + step.name + "\n");
+    }
+
+    @Override
+    public void visit(Scenario scenario) {
+        result = new StringBuilder();
+        stepNr = new ArrayList<Integer>();
+        stepNr.add(0);
+    }
+
+    @Override
+    public void startRecursion() {
+        stepNr.add(0);
+    }
+    @Override
+    public void endRecursion() {
+        stepNr.remove(stepNr.size()-1);
+    }
+
+    public String getResult() {
+        return result.toString();
+    }
+}
+
 public class ScenarioQualityChecker {
     public static void main(String args[]) {
         String text;
@@ -146,8 +182,8 @@ public class ScenarioQualityChecker {
             System.out.println("can't read example_scenario.json");
             return;
         };
-        JSONObject jo = new JSONObject(text);
 
+        JSONObject jo = new JSONObject(text);
         Scenario scenario;
 
         try {
@@ -155,12 +191,18 @@ public class ScenarioQualityChecker {
         }
         catch(Exception e) {
             System.out.println("can't parse example_scenario.json");
+            System.out.println(e);
             return;
         }
 
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
         System.out.println(stepCountVisitor.getResult());
-        System.out.println(scenario.toJSON().toString(4));
+
+        ScenarioToTextVisitor v = new ScenarioToTextVisitor();
+        scenario.accept(v);
+        System.out.println(v.getResult());
+
+        //System.out.println(scenario.toJSON().toString(4));
     }
 }
