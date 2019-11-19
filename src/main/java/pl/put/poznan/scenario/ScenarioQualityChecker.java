@@ -205,7 +205,7 @@ public class ScenarioQualityChecker {
     public static void main(String args[]) {
         String text;
         try {
-            text = Files.readString(Paths.get("example_scenario.json"));
+            text = new String(Files.readAllBytes(Paths.get("example_scenario.json")));
         }
         catch(Exception e) {
             System.out.println("can't read example_scenario.json");
@@ -224,7 +224,7 @@ public class ScenarioQualityChecker {
             return;
         }
 
-        scenario.accept(new ScenarioNestLimitVisitor(1));
+        scenario.accept(new ScenarioNestLimitVisitor(2));
 
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
