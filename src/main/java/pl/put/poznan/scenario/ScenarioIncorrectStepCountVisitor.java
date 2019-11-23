@@ -22,15 +22,22 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
         return res;
     }
 
-    private boolean checkKeywordsInStep(Step step)
+    private boolean checkKeywordAndActorInStep(Step step)
     {
-        boolean res = false;
+        boolean resK = false;
+        boolean resA = false;
         for (String keyword: Scenario.keyWords)//foreach loop testing, if the step starts with keyword
         {
-            res = step.name.startsWith(keyword);
-            if (res) break; //breaking the loop if found
+            resK = step.name.startsWith(keyword);
+            for (String actor: actors)//foreach loop testing, if the step's next word is an actor
+            {
+                // [KEYWORD]:_[ACTOR] OR [KEYWORD]:[ACTOR]
+                resA = (step.name.startsWith(actor, (keyword.length()+1)) || step.name.startsWith(actor, keyword.length()));
+                if (resA) break; //breaking the loop if found
+            }
+            if (resK) break; //breaking the loop if found
         }
-        return res;
+        return (resK && resA);
     }
 
     @Override
@@ -49,7 +56,7 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
         }
         else
         {
-            if(!checkKeywordsInStep(step))
+            if(!checkKeywordAndActorInStep(step))
                 result++;
         }
     }
