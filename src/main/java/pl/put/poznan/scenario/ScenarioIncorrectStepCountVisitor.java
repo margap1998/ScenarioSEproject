@@ -1,4 +1,4 @@
-package pl.put.poznan.scenario;
+package pl.put.poznan.scenario.Logic;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,11 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
 {
 
     public ArrayList<String> actors;
-    int result;
+    private int result;
+    public ScenarioIncorrectStepCountVisitor()
+    {
+        result = 0;
+    }
     private boolean checkActorsInStep(Step step)
     {
         boolean res = false;
@@ -18,22 +22,20 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
         return res;
     }
 
-    private boolean checkKeywordAndActorInStep(Step step)
+    private boolean checkKeywordsInStep(Step step)
     {
-        boolean resK = false;
-        boolean resA = false;
+        boolean res = false;
         for (String keyword: Scenario.keyWords)//foreach loop testing, if the step starts with keyword
         {
-            resK = step.name.startsWith(keyword);
+            res = step.name.startsWith(keyword);
             for (String actor: actors)//foreach loop testing, if the step's next word is an actor
             {
-                // [KEYWORD]:_[ACTOR] OR [KEYWORD]:[ACTOR]
-                resA = (step.name.startsWith(actor, (keyword.length()+1)) || step.name.startsWith(actor, keyword.length()));
-                if (resA) break; //breaking the loop if found
+                if (res) res = res && step.name.startsWith(actor, (keyword.length()+2));
+                if (res) break; //breaking the loop if found
             }
-            if (resK) break; //breaking the loop if found
+            if (res) break; //breaking the loop if found
         }
-        return (resK && resA);
+        return res;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
         }
         else
         {
-            if(!checkKeywordAndActorInStep(step))
+            if(!checkKeywordsInStep(step))
                 result++;
         }
     }
