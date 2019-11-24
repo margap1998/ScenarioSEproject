@@ -64,6 +64,7 @@ class Step implements ScenarioElement {
 }
 
 class Scenario implements ScenarioElement {
+    public static String[] keyWords = {"IF","FOR EACH","ELSE"};
     public String title;
     public ArrayList<String> actors;
     public String system;
