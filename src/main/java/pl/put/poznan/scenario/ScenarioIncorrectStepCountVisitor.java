@@ -68,4 +68,9 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
     {
 
     }
+
+    public int getResult ()
+    {
+        return result;
+    }
 }
