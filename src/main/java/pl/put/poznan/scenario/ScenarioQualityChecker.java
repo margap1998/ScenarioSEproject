@@ -68,6 +68,7 @@ class Scenario implements ScenarioElement {
     public ArrayList<String> actors;
     public String system;
     public ArrayList<Step> steps;
+    public static String[] Keywords = {"FOR EACH:","IF:","ELSE:"};
 
     public Scenario(JSONObject jo) throws Exception {
         title = jo.getString("title");
@@ -229,11 +230,11 @@ public class ScenarioQualityChecker {
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
         System.out.println(stepCountVisitor.getResult());
-/*
+
         ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
         scenario.accept(inStepCount);
         System.out.println(inStepCount.getResult());
-*/      
+
         ScenarioToTextVisitor v = new ScenarioToTextVisitor();
         scenario.accept(v);
         System.out.println(v.getResult());
