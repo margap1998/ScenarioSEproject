@@ -230,6 +230,10 @@ public class ScenarioQualityChecker {
         scenario.accept(stepCountVisitor);
         System.out.println(stepCountVisitor.getResult());
 
+        ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
+        scenario.accept(inStepCount);
+        System.out.println(inStepCount.getResult());
+        
         ScenarioToTextVisitor v = new ScenarioToTextVisitor();
         scenario.accept(v);
         System.out.println(v.getResult());
