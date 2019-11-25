@@ -2,10 +2,10 @@ package pl.put.poznan.scenario;
 
 import java.util.ArrayList;
 
-public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
+public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
 {
     public ArrayList<String> actors;
-    private int result;
+    public ArrayList<String> IncorrectSteps;
     private boolean checkActorsInStep(Step step)
     {
         boolean res = false;
@@ -49,13 +49,16 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
     {
         if (step.substeps.isEmpty())
         {
-            if(!checkActorsInStep(step))
-                result++;
-        }
-        else
+            if (!checkActorsInStep(step))
+            {
+                IncorrectSteps.add(step.name);
+            }
+        } else
         {
             if(!checkKeywordAndActorInStep(step))
-                result++;
+            {
+			    IncorrectSteps.add(step.name);
+		    }
         }
     }
 
@@ -71,8 +74,8 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
 
     }
 
-    public int getResult ()
+    public ArrayList<String> getIncorrectSteps ()
     {
-        return result;
+        return IncorrectSteps;
     }
 }
