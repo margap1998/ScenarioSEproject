@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map; 
 import java.util.ArrayList; 
 import org.json.JSONArray; 
-import org.json.JSONObject; 
+import org.json.JSONObject;
 
-interface ScenarioElement {
+interface  ScenarioElement {
     void accept(ScenarioElementVisitor visitor);
 }
 
@@ -20,10 +20,18 @@ interface ScenarioElementVisitor {
     void endRecursion();
 }
 
+/**
+ * This class represents one step in our scenario
+ * One step may contain several substeps
+ */
 class Step implements ScenarioElement {
     public String name;
     public ArrayList<Step> substeps;
 
+    /**
+     * This is class constructor which is setting value of variable 'name' and creates a list of possible substeps
+     * @param jo JSONObject representing one step
+     */
     public Step(JSONObject jo) {
         name = jo.getString("name");
         substeps = new ArrayList<Step>();
@@ -36,6 +44,10 @@ class Step implements ScenarioElement {
         }
     }
 
+    /**
+     * This method makes visitor visit step and it's substeps
+     * @param visitor Parameter representing visitor
+     */
     @Override
     public void accept(ScenarioElementVisitor visitor) {
         visitor.visit(this);
@@ -48,6 +60,10 @@ class Step implements ScenarioElement {
         }
     }
 
+    /**
+     * This method creates JSONObject and adds step and subsets int it
+     * @return JSONObject of step
+     */
     public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("name", name);
@@ -63,12 +79,20 @@ class Step implements ScenarioElement {
     }
 }
 
+/**
+ * Class representing whole scenario which contains many steps
+ */
 class Scenario implements ScenarioElement {
     public String title;
     public ArrayList<String> actors;
     public String system;
     public ArrayList<Step> steps;
 
+    /**
+     * This is class constructor where elements of scenario are assigned to corresponding variables
+     * @param jo JSONObject of Scenario
+     * @throws Exception
+     */
     public Scenario(JSONObject jo) throws Exception {
         title = jo.getString("title");
 
@@ -88,6 +112,10 @@ class Scenario implements ScenarioElement {
         }
     }
 
+    /**
+     * In this method we make visitor visit our scenario and each step
+     * @param visitor Visitor
+     */
     @Override
     public void accept(ScenarioElementVisitor visitor) {
         visitor.visit(this);
@@ -96,6 +124,10 @@ class Scenario implements ScenarioElement {
         }
     }
 
+    /**
+     * This method creates JSONobject and adds into it title and names of actors and system and scenario's steps
+     * @return JSONObject
+     */
     public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("title", title);
@@ -113,14 +145,25 @@ class Scenario implements ScenarioElement {
     }
 }
 
+/**
+ * This class counts how many steps are in the scenario
+ */
 class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     int result;
 
+    /**
+     * One step increases the number by one
+     * @param step represents one step
+     */
     @Override
     public void visit(Step step) {
         result++;
     }
 
+    /**
+     * At the beginning, the number equals zero
+     * @param scenario represents whole scenario
+     */
     @Override
     public void visit(Scenario scenario) {
         result = 0;
@@ -131,15 +174,25 @@ class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     @Override
     public void endRecursion() {}
 
+    /**
+     * @return number of steps
+     */
     public int getResult() {
         return result;
     }
 }
 
+/**
+ * Transforming scenario into a text file
+ */
 class ScenarioToTextVisitor implements ScenarioElementVisitor {
     StringBuilder result;
     ArrayList<Integer> stepNr;
 
+    /**
+     * For each step, write a number, a dot and the rest of the step
+     * @param step one step of a scenario
+     */
     @Override
     public void visit(Step step) {
         int lastIndex = stepNr.size()-1;
@@ -151,6 +204,10 @@ class ScenarioToTextVisitor implements ScenarioElementVisitor {
         result.append(" " + step.name + "\n");
     }
 
+    /**
+     * At the beginning, create necessary variables
+     * @param scenario our scenario
+     */
     @Override
     public void visit(Scenario scenario) {
         result = new StringBuilder();
@@ -158,50 +215,89 @@ class ScenarioToTextVisitor implements ScenarioElementVisitor {
         stepNr.add(0);
     }
 
+    /**
+     * Add zero at beginning of substep
+     */
     @Override
     public void startRecursion() {
         stepNr.add(0);
     }
+
+    /**
+     * Removing last number at the end of list of substeps
+     */
     @Override
     public void endRecursion() {
         stepNr.remove(stepNr.size()-1);
     }
 
+    /**
+     * @return scenario converted into a string
+     */
     public String getResult() {
         return result.toString();
     }
 }
 
+/**
+ * This class limits nest level of subsets in a single step
+ */
 class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
     int nestLimit;
     int nestLevel;
 
+    /**
+     * If a nest level is too high, delete substep
+     * @param step One step of scenario
+     */
     @Override
     public void visit(Step step) {
         if(nestLevel == nestLimit)
             step.substeps.clear();
     }
 
+    /**
+     * At the beginning, set the nestlevel at 0
+     * @param scenario One step of scenario
+     */
     @Override
     public void visit(Scenario scenario) {
         nestLevel = 0;
     }
 
+    /**
+     * Increase the nest level by one when a subset appears
+     */
     @Override
     public void startRecursion() {
         nestLevel += 1;
     }
+
+    /**
+     *  Decrease the nest level by one when the subset closes
+     */
     @Override
     public void endRecursion() {
         nestLevel -= 1;
     }
 
+    /**
+     * Sets the limitation of possible substeps in a substep
+     * @param limit maximum number of substeps
+     */
     public ScenarioNestLimitVisitor(int limit) {
         nestLimit = limit-1;
     }
 }
 
+/**
+ * This class checks the quality of Scenario
+ */
 public class ScenarioQualityChecker {
+    /**
+     * Trying to read the file containing the scenario and to parse it in order to check the quality of it
+     * @param args
+     */
     public static void main(String args[]) {
         String text;
         try {
