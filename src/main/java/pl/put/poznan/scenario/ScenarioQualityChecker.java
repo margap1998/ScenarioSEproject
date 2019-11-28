@@ -233,7 +233,9 @@ public class ScenarioQualityChecker {
 
         ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
         scenario.accept(inStepCount);
-        System.out.println(inStepCount.getResult());
+        ArrayList<String> nk = inStepCount.getIncorrectSteps();
+        for (String el : nk)
+            System.out.println("\""+el+"\" is an incorrect step");
 
         ScenarioToTextVisitor v = new ScenarioToTextVisitor();
         scenario.accept(v);
