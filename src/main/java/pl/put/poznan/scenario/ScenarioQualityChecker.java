@@ -231,7 +231,7 @@ public class ScenarioQualityChecker {
         scenario.accept(stepCountVisitor);
         System.out.println(stepCountVisitor.getResult());
 
-        ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
+        ScenarioIncorrectStepListVisitor inStepCount = new ScenarioIncorrectStepListVisitor();
         scenario.accept(inStepCount);
         ArrayList<String> nk = inStepCount.getIncorrectSteps();
         for (String el : nk)
