@@ -17,6 +17,11 @@ public class ScenarioIncorrectStepCountVisitor implements ScenarioElementVisitor
         return res;
     }
 
+    public ScenarioIncorrectStepListVisitor()
+    {
+        IncorrectSteps = new ArrayList<String>();
+    }
+    
     private boolean checkKeywordAndActorInStep (Step step)
     {
         boolean resK = false;
