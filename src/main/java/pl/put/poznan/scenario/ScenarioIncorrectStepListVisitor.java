@@ -6,6 +6,10 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
 {
     public ArrayList<String> actors;
     public ArrayList<String> IncorrectSteps;
+    public ScenarioIncorrectStepListVisitor()
+    {
+        IncorrectSteps = new ArrayList<String>();
+    }
     private boolean checkActorsInStep(Step step)
     {
         boolean res = false;
