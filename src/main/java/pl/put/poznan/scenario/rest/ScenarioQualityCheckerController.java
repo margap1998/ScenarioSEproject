@@ -7,13 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.scenario.logic.*;
 
+
 import java.io.UnsupportedEncodingException;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+
 
 /**
  * Controller class for RESTful API provided by Spring Boot
@@ -58,6 +61,7 @@ public class ScenarioQualityCheckerController {
         return stepCountVisitor.getResult();
     }
 
+
     /**
      * Handling request to list incorrect steps in scenario
      * @param scenarioText JSON text of scenario sent in request body
@@ -68,6 +72,7 @@ public class ScenarioQualityCheckerController {
     public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
         // TODO(piotr): throw an exception instead of returning invalid results in all requests
         ArrayList<String> InvalidResult = new ArrayList<String>();
+
         logger.debug(scenarioText);
         JSONObject jo;
         try {
@@ -148,4 +153,5 @@ public class ScenarioQualityCheckerController {
         jo = new JSONObject(scenarioText);
         return jo;
     }
+
 }

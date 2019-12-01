@@ -30,7 +30,6 @@ public class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     public void startRecursion() {}
     @Override
     public void endRecursion() {}
-
     /**
      * @return number of steps
      */

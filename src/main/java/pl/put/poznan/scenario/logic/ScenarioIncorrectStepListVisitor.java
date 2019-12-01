@@ -13,7 +13,7 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     public ScenarioIncorrectStepListVisitor()
     {
         IncorrectSteps = new ArrayList<String>();
-		actors = new ArrayList<String>();
+		    actors = new ArrayList<String>();
     }
     private boolean checkActorsInStep(Step step)
     {
@@ -45,6 +45,7 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
         }
         return (resK && resA);
     }
+
 	/**
 	 * Adding actors to look for in steps.
 	 * @param scenario Scenario that is processing

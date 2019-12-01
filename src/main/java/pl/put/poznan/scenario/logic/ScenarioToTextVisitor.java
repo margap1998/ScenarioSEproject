@@ -22,6 +22,7 @@ public class ScenarioToTextVisitor implements ScenarioElementVisitor {
         }
         result.append(" " + step.name + "\n");
     }
+
     /**
      * At the beginning, create necessary variables
      * @param scenario our scenario

@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject; 
 
 
+
 /**
  * This class represents one step in our scenario
  * One step may contain several substeps
@@ -16,6 +17,7 @@ class Step implements ScenarioElement {
      * This is class constructor which is setting value of variable 'name' and creates a list of possible substeps
      * @param jo JSONObject representing one step
      */
+
     public Step(JSONObject jo) {
         name = jo.getString("name");
         substeps = new ArrayList<Step>();
@@ -60,6 +62,7 @@ class Step implements ScenarioElement {
         return jo;
     }
 }
+
 /**
  * Class representing whole scenario which contains many steps
  */
@@ -98,10 +101,12 @@ public class Scenario implements ScenarioElement {
             steps.add(new Step(stepJson));
         }
     }
+
      /**
      * In this method we make visitor visit our scenario and each step
      * @param visitor Visitor
      */
+
     @Override
     public void accept(ScenarioElementVisitor visitor) {
         visitor.visit(this);
