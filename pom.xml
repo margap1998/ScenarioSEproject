@@ -7,7 +7,7 @@
 
     <groupId>pl.put.poznan</groupId>
     <artifactId>scenario-quality-checker</artifactId>
-    <version>0.1</version>
+    <version>0.5</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
