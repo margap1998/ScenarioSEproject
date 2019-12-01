@@ -1,4 +1,5 @@
 package pl.put.poznan.scenario.logic;
+
 /**
  * This class limits nest level of subsets in a single step
  */
@@ -40,7 +41,6 @@ public class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
     public void endRecursion() {
         nestLevel -= 1;
     }
-
     /**
      * Sets the limitation of possible substeps in a substep
      * @param limit maximum number of substeps

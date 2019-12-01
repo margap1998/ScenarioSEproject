@@ -1,6 +1,7 @@
 package pl.put.poznan.scenario.logic;
 
 import java.util.ArrayList; 
+
 /**
  * Transforming scenario into a text file
  */

@@ -1,4 +1,5 @@
 package pl.put.poznan.scenario.logic;
+
 /**
  * This class counts how many steps are in the scenario
  */
@@ -29,10 +30,11 @@ public class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     public void startRecursion() {}
     @Override
     public void endRecursion() {}
+
     /**
      * @return number of steps
      */
-    public int getResult() {
+	public int getResult() {
         return result;
     }
 }

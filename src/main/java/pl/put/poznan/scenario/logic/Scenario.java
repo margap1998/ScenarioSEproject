@@ -3,6 +3,8 @@ package pl.put.poznan.scenario.logic;
 import java.util.ArrayList; 
 import org.json.JSONArray; 
 import org.json.JSONObject; 
+
+
 /**
  * This class represents one step in our scenario
  * One step may contain several substeps
@@ -44,7 +46,7 @@ class Step implements ScenarioElement {
      * This method creates JSONObject and adds step and subsets int it
      * @return JSONObject of step
      */
-    public JSONObject toJSON() {
+	public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("name", name);
         if(substeps.size() > 0) {
@@ -107,8 +109,6 @@ public class Scenario implements ScenarioElement {
             steps.get(i).accept(visitor);
         }
     }
-
-
     /**
      * This method creates JSONobject and adds into it title and names of actors and system and scenario's steps
      * @return JSONObject

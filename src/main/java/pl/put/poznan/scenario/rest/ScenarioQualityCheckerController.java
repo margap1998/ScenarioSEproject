@@ -24,12 +24,12 @@ public class ScenarioQualityCheckerController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScenarioQualityCheckerController.class);
 
-    @CrossOrigin()
     /**
      * Handling request to count steps in scenario from JSON scenario sent in request body.
      * @param scenarioText JSON text of scenario
      * @return number of steps.
      */
+    @CrossOrigin()
     @RequestMapping(value = "/stepCount", method = RequestMethod.POST, produces = "application/json")
     public int stepCount(@RequestBody String scenarioText) {
         logger.debug(scenarioText);
@@ -68,6 +68,12 @@ public class ScenarioQualityCheckerController {
     public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
         // TODO(piotr): throw an exception instead of returning invalid results in all requests
         ArrayList<String> InvalidResult = new ArrayList<String>();
+
+        JSONObject jo;
+        try {
+            scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
+            scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
+            jo = new JSONObject(scenarioText);
         logger.debug(scenarioText);
         JSONObject jo;
         try {
@@ -132,7 +138,6 @@ public class ScenarioQualityCheckerController {
         return v.getResult();
 
     }
-
     /**
      * Method used to convert text sent in request from text to JSONObject.
      * @param scenarioText scenario to convert
@@ -142,6 +147,7 @@ public class ScenarioQualityCheckerController {
     private JSONObject getJsonObjectFromText (@RequestBody String scenarioText) throws UnsupportedEncodingException
     {
         JSONObject jo;
+		// NOTE(piotr): Z jakiegoś powodu na końcu zawsze jest niepotrzebny znak zapytania, więc go usuwamy... Warto by zrozumieć dlaczego tam jest.
         scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
         scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
         logger.debug(scenarioText);
