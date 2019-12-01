@@ -1,11 +1,10 @@
-pl/put/poznan/scenario/rest/ScenarioQualityCheckerController.class
-pl/put/poznan/scenario/logic/Scenario.class
-pl/put/poznan/scenario/logic/ScenarioToTextVisitor.class
 pl/put/poznan/scenario/app/ScenarioQualityCheckerApplication.class
 pl/put/poznan/scenario/logic/ScenarioElement.class
 pl/put/poznan/scenario/logic/ScenarioNestLimitVisitor.class
 pl/put/poznan/scenario/logic/ScenarioElementVisitor.class
-pl/put/poznan/scenario/logic/ScenarioIncorrectStepCountVisitor.class
+pl/put/poznan/scenario/rest/ScenarioQualityCheckerController.class
 pl/put/poznan/scenario/logic/ScenarioStepCountVisitor.class
 pl/put/poznan/scenario/logic/Step.class
-pl/put/poznan/scenario/logic/ScenarioQualityChecker.class
+pl/put/poznan/scenario/logic/ScenarioIncorrectStepListVisitor.class
+pl/put/poznan/scenario/logic/Scenario.class
+pl/put/poznan/scenario/logic/ScenarioToTextVisitor.class

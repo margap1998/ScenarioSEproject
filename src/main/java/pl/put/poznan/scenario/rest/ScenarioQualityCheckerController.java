@@ -10,6 +10,7 @@ import pl.put.poznan.scenario.logic.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -55,6 +56,8 @@ public class ScenarioQualityCheckerController {
     @CrossOrigin()
     @RequestMapping(value = "/incorrectStepList", method = RequestMethod.POST, produces = "application/json")
     public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
+        // TODO(piotr): throw an exception instead of returning invalid results in all requests
+        ArrayList<String> InvalidResult = new ArrayList<String>();
 
         JSONObject jo;
         try {
@@ -65,7 +68,7 @@ public class ScenarioQualityCheckerController {
         catch(Exception e) {
             System.out.println("can't parse request body into json");
             System.out.println(e);
-            return -1;
+            return InvalidResult;
         }
 
         Scenario scenario;
@@ -75,7 +78,7 @@ public class ScenarioQualityCheckerController {
         catch(Exception e) {
             System.out.println("can't parse scenario");
             System.out.println(e);
-            return -1;
+            return InvalidResult;
         }
 
         ScenarioIncorrectStepListVisitor inStepList = new ScenarioIncorrectStepListVisitor();
