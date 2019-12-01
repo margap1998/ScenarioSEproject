@@ -1,54 +1,53 @@
 {
-    "header": {
-        "title": "Dodanie książki",
-        "actors": [
-            "Bibliotekarz"
-        ],
-        "system": "System"
-    },
-    "scenario": [
+    "title": "Dodanie książki",
+    "actors": [
+        "Bibliotekarz"
+    ],
+    "system": "System",
+
+    "steps": [
         {
-            "step": "Bibliotekarz wybiera opcje dodania nowej pozycji książkowej"
+            "name": "Bibliotekarz wybiera opcje dodania nowej pozycji książkowej"
         },
         {
-            "step": "Wyświetla się formularz."
+            "name": "Wyświetla się formularz."
         },
         {
-            "step": "Bibliotekarz podaje dane książki."
+            "name": "Bibliotekarz podaje dane książki."
         },
         {
-            "step": "IF: Bibliotekarz pragnie dodać egzemplarze książki",
+            "name": "IF: Bibliotekarz pragnie dodać egzemplarze książki",
             "substeps": [
                 {
-                    "step": "Bibliotekarz wybiera opcję definiowania egzemplarzy"
+                    "name": "Bibliotekarz wybiera opcję definiowania egzemplarzy"
                 },
                 {
-                    "step": "System prezentuje zdefiniowane egzemplarze"
+                    "name": "System prezentuje zdefiniowane egzemplarze"
                 },
                 {
-                    "step": "FOR EACH egzemplarz:",
+                    "name": "FOR EACH egzemplarz:",
                     "substeps": [
                         {
-                            "step": "Bibliotekarz wybiera opcję dodania egzemplarza"
+                            "name": "Bibliotekarz wybiera opcję dodania egzemplarza"
                         },
                         {
-                            "step": "System prosi o podanie danych egzemplarza"
+                            "name": "System prosi o podanie danych egzemplarza"
                         },
                         {
-                            "step": "Bibliotekarz podaje dane egzemplarza i zatwierdza."
+                            "name": "Bibliotekarz podaje dane egzemplarza i zatwierdza."
                         },
                         {
-                            "step": "System informuje o poprawnym dodaniu egzemplarza i prezentuje zaktualizowaną listę egzemplarzy."
+                            "name": "System informuje o poprawnym dodaniu egzemplarza i prezentuje zaktualizowaną listę egzemplarzy."
                         }
                     ]
                 }
             ]
         },
         {
-            "step": "Bibliotekarz zatwierdza dodanie książki."
+            "name": "Bibliotekarz zatwierdza dodanie książki."
         },
         {
-            "step": "System informuje o poprawnym dodaniu książki."
+            "name": "System informuje o poprawnym dodaniu książki."
         }
     ] 
 }
