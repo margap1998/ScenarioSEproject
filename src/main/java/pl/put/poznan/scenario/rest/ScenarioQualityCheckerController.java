@@ -10,6 +10,9 @@ import pl.put.poznan.scenario.logic.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 
 @RestController
 @RequestMapping("/api")
@@ -17,26 +20,29 @@ public class ScenarioQualityCheckerController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScenarioQualityCheckerController.class);
 
-    @RequestMapping(value = "/stepCount", method = RequestMethod.GET, produces = "application/json")
-    public int stepCount(@PathVariable String text) {
-        logger.debug(text);
+    @CrossOrigin()
+    @RequestMapping(value = "/stepCount", method = RequestMethod.POST, produces = "application/json")
+    public int stepCount(@RequestBody String scenarioText) {
 
+        JSONObject jo;
         try {
-            text = new String(Files.readAllBytes(Paths.get("example_scenario.json")));
+            scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
+            // NOTE(piotr): Z jakiegoś powodu na końcu zawsze jest niepotrzebny znak zapytania, więc go usuwamy... Warto by zrozumieć dlaczego tam jest.
+            scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
+            jo = new JSONObject(scenarioText);
         }
         catch(Exception e) {
-            System.out.println("can't read example_scenario.json");
+            System.out.println("can't parse request body into json");
+            System.out.println(e);
             return -1;
-        };
+        }
 
-        JSONObject jo = new JSONObject(text);
         Scenario scenario;
-
         try {
             scenario = new Scenario(jo);
         }
         catch(Exception e) {
-            System.out.println("can't parse example_scenario.json");
+            System.out.println("can't parse scenario");
             System.out.println(e);
             return -1;
         }
@@ -46,26 +52,28 @@ public class ScenarioQualityCheckerController {
         return stepCountVisitor.getResult();
     }
 
-    @RequestMapping(value = "/incorrectStepCount", method = RequestMethod.GET, produces = "application/json")
-    public int incorrectStepCount(@PathVariable String text) {
-        logger.debug(text);
+    @CrossOrigin()
+    @RequestMapping(value = "/incorrectStepCount", method = RequestMethod.POST, produces = "application/json")
+    public int incorrectStepCount(@RequestBody String scenarioText) {
 
+        JSONObject jo;
         try {
-            text = new String(Files.readAllBytes(Paths.get("example_scenario.json")));
+            scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
+            scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
+            jo = new JSONObject(scenarioText);
         }
         catch(Exception e) {
-            System.out.println("can't read example_scenario.json");
+            System.out.println("can't parse request body into json");
+            System.out.println(e);
             return -1;
-        };
+        }
 
-        JSONObject jo = new JSONObject(text);
         Scenario scenario;
-
         try {
             scenario = new Scenario(jo);
         }
         catch(Exception e) {
-            System.out.println("can't parse example_scenario.json");
+            System.out.println("can't parse scenario");
             System.out.println(e);
             return -1;
         }
@@ -76,26 +84,28 @@ public class ScenarioQualityCheckerController {
 
     }
 
-    @RequestMapping(value = "/toText", method = RequestMethod.GET, produces = "application/json")
-    public String toText(@PathVariable String text) {
-        logger.debug(text);
+    @CrossOrigin()
+    @RequestMapping(value = "/toText", method = RequestMethod.POST, produces = "application/json")
+    public String toText(@RequestBody String scenarioText) {
 
+        JSONObject jo;
         try {
-            text = new String(Files.readAllBytes(Paths.get("example_scenario.json")));
+            scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
+            scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
+            jo = new JSONObject(scenarioText);
         }
         catch(Exception e) {
-            System.out.println("can't read example_scenario.json");
+            System.out.println("can't parse request body into json");
+            System.out.println(e);
             return "";
-        };
+        }
 
-        JSONObject jo = new JSONObject(text);
         Scenario scenario;
-
         try {
             scenario = new Scenario(jo);
         }
         catch(Exception e) {
-            System.out.println("can't parse example_scenario.json");
+            System.out.println("can't parse scenario");
             System.out.println(e);
             return "";
         }
