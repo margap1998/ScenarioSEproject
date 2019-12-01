@@ -68,12 +68,6 @@ public class ScenarioQualityCheckerController {
     public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
         // TODO(piotr): throw an exception instead of returning invalid results in all requests
         ArrayList<String> InvalidResult = new ArrayList<String>();
-
-        JSONObject jo;
-        try {
-            scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
-            scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
-            jo = new JSONObject(scenarioText);
         logger.debug(scenarioText);
         JSONObject jo;
         try {
