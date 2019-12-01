@@ -52,20 +52,14 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     @Override
     public void visit (Scenario scenario)
     {
-		for(String a:scenario.actors)
-			actors.add(a);
+	for(String a:scenario.actors)
+		actors.add(a);
         actors.add(scenario.system);
     }
-	/**
-	 * Checks step if it has an actor or keyword and actor at beginning
-	 * @param step Step to check
-	 */
-    @Override
-    public void visit (Scenario scenario)
-    {
-        actors = scenario.actors;
-        actors.add(scenario.system);
-    }
+    /**
+     * Checks step if it has an actor or keyword and actor at beginning
+     * @param step Step to check
+     */
     @Override
     public void visit (Step step)
     {
