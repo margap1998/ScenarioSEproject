@@ -53,8 +53,8 @@ public class ScenarioQualityCheckerController {
     }
 
     @CrossOrigin()
-    @RequestMapping(value = "/incorrectStepCount", method = RequestMethod.POST, produces = "application/json")
-    public int incorrectStepCount(@RequestBody String scenarioText) {
+    @RequestMapping(value = "/incorrectStepList", method = RequestMethod.POST, produces = "application/json")
+    public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
 
         JSONObject jo;
         try {
@@ -78,9 +78,9 @@ public class ScenarioQualityCheckerController {
             return -1;
         }
 
-        ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
-        scenario.accept(inStepCount);
-        return inStepCount.getResult();
+        ScenarioIncorrectStepListVisitor inStepList = new ScenarioIncorrectStepListVisitor();
+        scenario.accept(inStepList);
+        return inStepList.getIncorrectSteps();
 
     }
 
