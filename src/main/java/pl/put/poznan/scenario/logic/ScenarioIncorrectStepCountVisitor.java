@@ -1,4 +1,4 @@
-package pl.put.poznan.scenario;
+package pl.put.poznan.scenario.logic;
 
 import java.util.ArrayList;
 

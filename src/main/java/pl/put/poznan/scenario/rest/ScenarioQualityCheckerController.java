@@ -1,9 +1,11 @@
 package pl.put.poznan.scenario.rest;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.scenario.*;
+import pl.put.poznan.scenario.logic.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,7 +18,7 @@ public class ScenarioQualityCheckerController {
     private static final Logger logger = LoggerFactory.getLogger(ScenarioQualityCheckerController.class);
 
     @RequestMapping(value = "/stepCount", method = RequestMethod.GET, produces = "application/json")
-    public ScenarioQualityChecker scenario(@PathVariable String text) {
+    public int stepCount(@PathVariable String text) {
         logger.debug(text);
 
         try {
@@ -24,7 +26,7 @@ public class ScenarioQualityCheckerController {
         }
         catch(Exception e) {
             System.out.println("can't read example_scenario.json");
-            return;
+            return -1;
         };
 
         JSONObject jo = new JSONObject(text);
@@ -36,19 +38,16 @@ public class ScenarioQualityCheckerController {
         catch(Exception e) {
             System.out.println("can't parse example_scenario.json");
             System.out.println(e);
-            return;
+            return -1;
         }
-
-        scenario.accept(new ScenarioNestLimitVisitor(2));
 
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
         return stepCountVisitor.getResult();
-
     }
 
-    @RequestMapping(value = "/incorrectstepCount", method = RequestMethod.GET, produces = "application/json")
-    public Scenario scenario(@PathVariable String text) {
+    @RequestMapping(value = "/incorrectStepCount", method = RequestMethod.GET, produces = "application/json")
+    public int incorrectStepCount(@PathVariable String text) {
         logger.debug(text);
 
         try {
@@ -56,7 +55,7 @@ public class ScenarioQualityCheckerController {
         }
         catch(Exception e) {
             System.out.println("can't read example_scenario.json");
-            return;
+            return -1;
         };
 
         JSONObject jo = new JSONObject(text);
@@ -68,10 +67,8 @@ public class ScenarioQualityCheckerController {
         catch(Exception e) {
             System.out.println("can't parse example_scenario.json");
             System.out.println(e);
-            return;
+            return -1;
         }
-
-        scenario.accept(new ScenarioNestLimitVisitor(2));
 
         ScenarioIncorrectStepCountVisitor inStepCount = new ScenarioIncorrectStepCountVisitor();
         scenario.accept(inStepCount);
@@ -80,7 +77,7 @@ public class ScenarioQualityCheckerController {
     }
 
     @RequestMapping(value = "/toText", method = RequestMethod.GET, produces = "application/json")
-    public Scenario scenario(@PathVariable String text) {
+    public String toText(@PathVariable String text) {
         logger.debug(text);
 
         try {
@@ -88,7 +85,7 @@ public class ScenarioQualityCheckerController {
         }
         catch(Exception e) {
             System.out.println("can't read example_scenario.json");
-            return;
+            return "";
         };
 
         JSONObject jo = new JSONObject(text);
@@ -100,10 +97,8 @@ public class ScenarioQualityCheckerController {
         catch(Exception e) {
             System.out.println("can't parse example_scenario.json");
             System.out.println(e);
-            return;
+            return "";
         }
-
-        scenario.accept(new ScenarioNestLimitVisitor(2));
 
         ScenarioToTextVisitor v = new ScenarioToTextVisitor();
         scenario.accept(v);
