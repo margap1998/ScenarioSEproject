@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import org.json.JSONArray; 
 import org.json.JSONObject; 
 
+
+
+/**
+ * This class represents one step in our scenario
+ * One step may contain several substeps
+ */
 class Step implements ScenarioElement {
     public String name;
     public ArrayList<Step> substeps;
+    /**
+     * This is class constructor which is setting value of variable 'name' and creates a list of possible substeps
+     * @param jo JSONObject representing one step
+     */
 
     public Step(JSONObject jo) {
         name = jo.getString("name");
@@ -19,7 +29,10 @@ class Step implements ScenarioElement {
             }
         }
     }
-
+    /**
+     * This method makes visitor visit step and it's substeps
+     * @param visitor Parameter representing visitor
+     */
     @Override
     public void accept(ScenarioElementVisitor visitor) {
         visitor.visit(this);
@@ -31,8 +44,11 @@ class Step implements ScenarioElement {
             visitor.endRecursion();
         }
     }
-
-    public JSONObject toJSON() {
+    /**
+     * This method creates JSONObject and adds step and subsets int it
+     * @return JSONObject of step
+     */
+	public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("name", name);
         if(substeps.size() > 0) {
@@ -47,13 +63,26 @@ class Step implements ScenarioElement {
     }
 }
 
+/**
+ * Class representing whole scenario which contains many steps
+ */
 public class Scenario implements ScenarioElement {
     public String title;
     public ArrayList<String> actors;
+    /**
+     * System actor
+     */
     public String system;
     public ArrayList<Step> steps;
+    /**
+     * Keywors beeing used in scenarios
+     */
     public static String[] Keywords = {"FOR EACH:","IF:","ELSE:"};
-
+    /**
+     * This is class constructor where elements of scenario are assigned to corresponding variables
+     * @param jo JSONObject of Scenario
+     * @throws Exception Thrown in case of problem with parsing
+     */
     public Scenario(JSONObject jo) throws Exception {
         title = jo.getString("title");
 
@@ -73,6 +102,11 @@ public class Scenario implements ScenarioElement {
         }
     }
 
+     /**
+     * In this method we make visitor visit our scenario and each step
+     * @param visitor Visitor
+     */
+
     @Override
     public void accept(ScenarioElementVisitor visitor) {
         visitor.visit(this);
@@ -80,7 +114,10 @@ public class Scenario implements ScenarioElement {
             steps.get(i).accept(visitor);
         }
     }
-
+    /**
+     * This method creates JSONobject and adds into it title and names of actors and system and scenario's steps
+     * @return JSONObject
+     */
     public JSONObject toJSON() {
         JSONObject jo = new JSONObject();
         jo.put("title", title);

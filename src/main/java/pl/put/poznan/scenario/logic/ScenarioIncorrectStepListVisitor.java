@@ -2,6 +2,10 @@ package pl.put.poznan.scenario.logic;
 
 import java.util.ArrayList;
 
+/**
+ * A class that looks for incorrect steps
+ */
+
 public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
 {
     public ArrayList<String> actors;
@@ -9,6 +13,7 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     public ScenarioIncorrectStepListVisitor()
     {
         IncorrectSteps = new ArrayList<String>();
+		    actors = new ArrayList<String>();
     }
     private boolean checkActorsInStep(Step step)
     {
@@ -41,13 +46,21 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
         return (resK && resA);
     }
 
+	/**
+	 * Adding actors to look for in steps.
+	 * @param scenario Scenario that is processing
+	 */
     @Override
     public void visit (Scenario scenario)
     {
-        actors = scenario.actors;
+	for(String a:scenario.actors)
+		actors.add(a);
         actors.add(scenario.system);
     }
-
+    /**
+     * Checks step if it has an actor or keyword and actor at beginning
+     * @param step Step to check
+     */
     @Override
     public void visit (Step step)
     {
@@ -77,7 +90,10 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     {
 
     }
-
+	/**
+	 * A getter for actual state of result
+	 * @return List of incorrect steps.
+	 */
     public ArrayList<String> getIncorrectSteps ()
     {
         return IncorrectSteps;
