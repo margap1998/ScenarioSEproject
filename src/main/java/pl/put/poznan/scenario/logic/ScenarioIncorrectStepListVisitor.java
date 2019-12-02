@@ -3,7 +3,7 @@ package pl.put.poznan.scenario.logic;
 import java.util.ArrayList;
 
 /**
- * A class that looks for incorrect steps
+ * Class that looks for incorrect steps
  */
 
 public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
@@ -46,10 +46,10 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
         return (resK && resA);
     }
 
-	/**
-	 * Adding actors to look for in steps.
-	 * @param scenario Scenario that is processing
-	 */
+    /**
+     * Adding the actors to look for in steps.
+     * @param scenario Scenario that is being processed
+     */
     @Override
     public void visit (Scenario scenario)
     {
@@ -81,10 +81,11 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     {
 
     }
-	/**
-	 * A getter for actual state of result
-	 * @return List of incorrect steps.
-	 */
+
+    /**
+     * Getter for the actual state of the result
+     * @return List of incorrect steps.
+     */
     public ArrayList<String> getIncorrectSteps ()
     {
         return IncorrectSteps;

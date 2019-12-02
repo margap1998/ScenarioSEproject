@@ -1,7 +1,7 @@
 package pl.put.poznan.scenario.logic;
 
 /**
- * A class that counts steps beginning with a keyword
+ * Class that counts steps beginning with a keyword
  */
 
 public class ScenarioKeywordCountVisitor implements ScenarioElementVisitor
@@ -47,7 +47,7 @@ public class ScenarioKeywordCountVisitor implements ScenarioElementVisitor
     public void endRecursion () {}
 
     /**
-     * A getter for actual state of result
+     * A getter for the actual state of the result
      * @return number of steps starting with a keyword in the processed scenario
      */
     public int getResult()

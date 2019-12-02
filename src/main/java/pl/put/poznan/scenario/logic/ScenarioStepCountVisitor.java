@@ -1,11 +1,11 @@
 package pl.put.poznan.scenario.logic;
 
 /**
- * This class counts how many steps are in the scenario
+ * Class that counts how many steps are in the scenario
  */
 public class ScenarioStepCountVisitor implements ScenarioElementVisitor {
     /**
-     * Counter of steps.
+     * Number of steps
      */
     int result;
 
@@ -18,7 +18,7 @@ public class ScenarioStepCountVisitor implements ScenarioElementVisitor {
         result++;
     }
     /**
-     * At the beginning, the number equals zero
+     * Initializing the step count
      * @param scenario represents whole scenario
      */
     @Override

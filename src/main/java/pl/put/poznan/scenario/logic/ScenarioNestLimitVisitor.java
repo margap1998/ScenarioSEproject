@@ -2,7 +2,7 @@ package pl.put.poznan.scenario.logic;
 
 
 /**
- * This class limits nest level of subsets in a single step
+ * Class that removes steps exceeding a given maximal nesting level from a scenario
  */
 public class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
     int nestLimit;
@@ -10,7 +10,7 @@ public class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
 
 
     /**
-     * If a nest level is too high, delete substep
+     * If the nesting level is too high, delete substep
      * @param step One step of scenario
      */
     @Override
@@ -20,8 +20,8 @@ public class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
     }
 
     /**
-     * At the beginning, set the nestlevel at 0
-     * @param scenario One step of scenario
+     * At the beginning, set the nestLevel to 0
+     * @param scenario One step of a scenario
      */
     @Override
     public void visit(Scenario scenario) {
@@ -29,22 +29,24 @@ public class ScenarioNestLimitVisitor implements ScenarioElementVisitor {
     }
 
     /**
-     * Increase the nest level by one when a subset appears
+     * Increase the nest level by one when entering a substep list
      */
     @Override
     public void startRecursion() {
         nestLevel += 1;
     }
+
     /**
-     *  Decrease the nest level by one when the subset closes
+     *  Decrease the nest level by one when leaving a substep list
      */
     @Override
     public void endRecursion() {
         nestLevel -= 1;
     }
+
     /**
-     * Sets the limitation of possible substeps in a substep
-     * @param limit maximum number of substeps
+     * Sets the maximal nesting level allowed
+     * @param limit maximum nesting level
      */
     public ScenarioNestLimitVisitor(int limit) {
         nestLimit = limit-1;
