@@ -31,30 +31,17 @@ public class ScenarioQualityCheckerController {
      * Handling request to count steps in scenario from JSON scenario sent in request body.
      * @param scenarioText JSON text of scenario
      * @return number of steps.
+     * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
     @RequestMapping(value = "/stepCount", method = RequestMethod.POST, produces = "application/json")
-    public int stepCount(@RequestBody String scenarioText) {
+    public int stepCount(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
-        try {
-            jo = getJsonObjectFromText(scenarioText);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse request body into json");
-            System.out.println(e);
-            return -1;
-        }
+        jo = new JSONObject(scenarioText);
 
         Scenario scenario;
-        try {
-            scenario = new Scenario(jo);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse scenario");
-            System.out.println(e);
-            return -1;
-        }
+        scenario = new Scenario(jo);
 
         ScenarioStepCountVisitor stepCountVisitor = new ScenarioStepCountVisitor();
         scenario.accept(stepCountVisitor);
@@ -66,33 +53,17 @@ public class ScenarioQualityCheckerController {
      * Handling request to list incorrect steps in scenario
      * @param scenarioText JSON text of scenario sent in request body
      * @return List of incorrect steps
+     * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
     @RequestMapping(value = "/incorrectStepList", method = RequestMethod.POST, produces = "application/json")
-    public ArrayList<String> incorrectStepList(@RequestBody String scenarioText) {
-        // TODO(piotr): throw an exception instead of returning invalid results in all requests
-        ArrayList<String> InvalidResult = new ArrayList<String>();
-
+    public ArrayList<String> incorrectStepList(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
-        try {
-            jo = getJsonObjectFromText(scenarioText);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse request body into json");
-            System.out.println(e);
-            return InvalidResult;
-        }
+        jo = new JSONObject(scenarioText);
 
         Scenario scenario;
-        try {
-            scenario = new Scenario(jo);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse scenario");
-            System.out.println(e);
-            return InvalidResult;
-        }
+        scenario = new Scenario(jo);
 
         ScenarioIncorrectStepListVisitor inStepList = new ScenarioIncorrectStepListVisitor();
         scenario.accept(inStepList);
@@ -100,58 +71,69 @@ public class ScenarioQualityCheckerController {
         ArrayList<String> incorrectSteps = inStepList.getIncorrectSteps();
         logger.debug(incorrectSteps.toString());
         return incorrectSteps;
-
     }
 
     /**
      * Handling request to convert scenerio to numbered list in plain text.
      * @param scenarioText JSON text of scenario
      * @return Transformed scenario to plain text
+     * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
     @RequestMapping(value = "/toText", method = RequestMethod.POST, produces = "application/json")
-    public String toText(@RequestBody String scenarioText) {
+    public String toText(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
-        try {
-            jo = getJsonObjectFromText(scenarioText);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse request body into json");
-            System.out.println(e);
-            return "";
-        }
+        jo = new JSONObject(scenarioText);
 
         Scenario scenario;
-        try {
-            scenario = new Scenario(jo);
-        }
-        catch(Exception e) {
-            System.out.println("can't parse scenario");
-            System.out.println(e);
-            return "";
-        }
+        scenario = new Scenario(jo);
 
-        ScenarioToTextVisitor v = new ScenarioToTextVisitor();
-        scenario.accept(v);
-        return v.getResult();
-
+        ScenarioToTextVisitor visitor = new ScenarioToTextVisitor();
+        scenario.accept(visitor);
+        return visitor.getResult();
     }
+
     /**
-     * Method used to convert text sent in request from text to JSONObject.
-     * @param scenarioText scenario to convert
-     * @return JSON Object to process on
-     * @throws UnsupportedEncodingException Thrown if there is unsupported type of scenario.
+     * Handling request to limit nesting level in scenario from JSON scenario sent in request body.
+     * @param scenarioText JSON text of scenario
+     * @param level maximal nesting level allowed
+     * @return JSON text of scenario with steps exceeding the maximal nesting level removed
+     * @throws Exception Thrown if the scenarioText or level is incorrect
      */
-    private JSONObject getJsonObjectFromText (@RequestBody String scenarioText) throws UnsupportedEncodingException
-    {
-        JSONObject jo;
-		// NOTE(piotr): Z jakiegoś powodu na końcu zawsze jest niepotrzebny znak zapytania, więc go usuwamy... Warto by zrozumieć dlaczego tam jest.
-        scenarioText = URLDecoder.decode(scenarioText, StandardCharsets.UTF_8.toString());
-        scenarioText = scenarioText.substring(0, scenarioText.length() - 1);
+    @CrossOrigin()
+    @RequestMapping(value = "/nestLimit", method = RequestMethod.POST, produces = "application/json")
+    public String nestLimit(@RequestParam(value="scenario") String scenarioText, @RequestParam(value="level", defaultValue="1") int level) throws Exception {
         logger.debug(scenarioText);
+        JSONObject jo;
         jo = new JSONObject(scenarioText);
-        return jo;
+
+        Scenario scenario;
+        scenario = new Scenario(jo);
+
+        ScenarioNestLimitVisitor visitor = new ScenarioNestLimitVisitor(level);
+        scenario.accept(visitor);
+        return scenario.toJSON().toString();
     }
 
+    /**
+     * Handling request to count steps with a keyword in a scenario.
+     * @param scenarioText JSON text of scenario
+     * @return number of steps starting with a keyword
+     * @throws Exception Thrown if the scenarioText is incorrect
+     */
+    @CrossOrigin()
+    @RequestMapping(value = "/keywordCount", method = RequestMethod.POST, produces = "application/json")
+    public int keywordCount(@RequestParam(value="scenario") String scenarioText) throws Exception {
+        logger.debug(scenarioText);
+        JSONObject jo;
+        jo = new JSONObject(scenarioText);
+
+        Scenario scenario;
+        scenario = new Scenario(jo);
+
+        ScenarioKeywordCountVisitor visitor = new ScenarioKeywordCountVisitor();
+        scenario.accept(visitor);
+        return visitor.getResult();
+    }
 }

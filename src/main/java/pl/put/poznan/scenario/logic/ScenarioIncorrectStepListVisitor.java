@@ -64,18 +64,9 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     @Override
     public void visit (Step step)
     {
-        if (step.substeps.isEmpty())
+        if(!checkActorsInStep(step) && !checkKeywordAndActorInStep(step))
         {
-            if (!checkActorsInStep(step))
-            {
-                IncorrectSteps.add(step.name);
-            }
-        } else
-        {
-            if(!checkKeywordAndActorInStep(step))
-            {
-			    IncorrectSteps.add(step.name);
-		    }
+            IncorrectSteps.add(step.name);
         }
     }
 
