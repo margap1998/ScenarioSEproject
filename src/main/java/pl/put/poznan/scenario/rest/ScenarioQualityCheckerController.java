@@ -34,7 +34,7 @@ public class ScenarioQualityCheckerController {
      * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
-    @RequestMapping(value = "/stepCount", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/stepCount", method = RequestMethod.GET, produces = "application/json")
     public int stepCount(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
@@ -56,7 +56,7 @@ public class ScenarioQualityCheckerController {
      * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
-    @RequestMapping(value = "/incorrectStepList", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/incorrectStepList", method = RequestMethod.GET, produces = "application/json")
     public ArrayList<String> incorrectStepList(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
@@ -80,7 +80,7 @@ public class ScenarioQualityCheckerController {
      * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
-    @RequestMapping(value = "/toText", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/toText", method = RequestMethod.GET, produces = "application/json")
     public String toText(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
@@ -102,7 +102,7 @@ public class ScenarioQualityCheckerController {
      * @throws Exception Thrown if the scenarioText or level is incorrect
      */
     @CrossOrigin()
-    @RequestMapping(value = "/nestLimit", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/nestLimit", method = RequestMethod.GET, produces = "application/json")
     public String nestLimit(@RequestParam(value="scenario") String scenarioText, @RequestParam(value="level", defaultValue="1") int level) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
@@ -123,7 +123,7 @@ public class ScenarioQualityCheckerController {
      * @throws Exception Thrown if the scenarioText is incorrect
      */
     @CrossOrigin()
-    @RequestMapping(value = "/keywordCount", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/keywordCount", method = RequestMethod.GET, produces = "application/json")
     public int keywordCount(@RequestParam(value="scenario") String scenarioText) throws Exception {
         logger.debug(scenarioText);
         JSONObject jo;
