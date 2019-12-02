@@ -77,7 +77,7 @@ public class Scenario implements ScenarioElement {
     /**
      * Keywors beeing used in scenarios
      */
-    public static String[] Keywords = {"FOR EACH:","IF:","ELSE:"};
+    public static String[] Keywords = {"FOR EACH","IF:","ELSE:"};
     /**
      * This is class constructor where elements of scenario are assigned to corresponding variables
      * @param jo JSONObject of Scenario
