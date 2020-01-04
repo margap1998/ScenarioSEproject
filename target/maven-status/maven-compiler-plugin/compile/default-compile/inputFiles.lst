@@ -1,10 +1,11 @@
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/rest/ScenarioQualityCheckerController.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioIncorrectStepListVisitor.java
+/home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/gui/ScenarioQualityCheckerGui.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/app/ScenarioQualityCheckerApplication.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioElement.java
-/home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioStepCountVisitor.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/Scenario.java
+/home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioStepCountVisitor.java
+/home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioKeywordCountVisitor.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioNestLimitVisitor.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioToTextVisitor.java
-/home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioKeywordCountVisitor.java
 /home/void/wi/io/ScenarioSEproject/src/main/java/pl/put/poznan/scenario/logic/ScenarioElementVisitor.java
