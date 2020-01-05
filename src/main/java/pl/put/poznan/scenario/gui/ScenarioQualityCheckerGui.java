@@ -47,7 +47,7 @@ public class ScenarioQualityCheckerGui extends Application {
 
         ScenarioKeywordCountVisitor v3 = new ScenarioKeywordCountVisitor();
         processedScenario.accept(v3);
-        keywordCount.setText("step count: " + String.valueOf(v3.getResult()));
+        keywordCount.setText("keyword count: " + String.valueOf(v3.getResult()));
     }
 
     void readScenarioFromFile(Stage stage) {
@@ -113,7 +113,7 @@ public class ScenarioQualityCheckerGui extends Application {
             ArrayList<String> result = v.getIncorrectSteps();
             StringBuilder builder = new StringBuilder();
             for(int i = 0; i < result.size(); i++) {
-                builder.append(result.get(i) + "\n");
+                builder.append(String.valueOf(i+1) + ". " + result.get(i) + "\n");
             }
 
             alert.setContentText(builder.toString());
