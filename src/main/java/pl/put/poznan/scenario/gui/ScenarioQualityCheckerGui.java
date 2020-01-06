@@ -1,5 +1,6 @@
 package pl.put.poznan.scenario.gui;
 
+import javafx.geometry.Insets;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import pl.put.poznan.scenario.logic.*;
@@ -13,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -33,8 +33,8 @@ public class ScenarioQualityCheckerGui extends Application {
 
     Scenario processedScenario;
     Text scenarioDisplay = new Text();
-    Text stepCount = new Text("step count: ");
-    Text keywordCount = new Text("keyword count: ");
+    Text stepCount = new Text("Step count: ");
+    Text keywordCount = new Text("Keyword count: ");
 
     void updateDisplay() {
         ScenarioToTextVisitor v1 = new ScenarioToTextVisitor();
@@ -43,21 +43,29 @@ public class ScenarioQualityCheckerGui extends Application {
 
         ScenarioStepCountVisitor v2 = new ScenarioStepCountVisitor();
         processedScenario.accept(v2);
-        stepCount.setText("step count: " + String.valueOf(v2.getResult()));
+        stepCount.setText("Step count: " + String.valueOf(v2.getResult()));
 
         ScenarioKeywordCountVisitor v3 = new ScenarioKeywordCountVisitor();
         processedScenario.accept(v3);
-        keywordCount.setText("keyword count: " + String.valueOf(v3.getResult()));
+        keywordCount.setText("Keyword count: " + String.valueOf(v3.getResult()));
     }
 
     void readScenarioFromFile(Stage stage) {
         File f = fileChooser.showOpenDialog(stage);
         try {
-            // read the chosen file into a string
-            String s = new String(Files.readAllBytes(Paths.get(f.getPath())));
-            processedScenario = new Scenario(new JSONObject(s));
-            updateDisplay();
-        } catch(Exception exc) {} // TODO(piotr): handle errors
+            if(f != null) {
+                // read the chosen file into a string
+                String s = new String(Files.readAllBytes(Paths.get(f.getPath())));
+                processedScenario = new Scenario(new JSONObject(s));
+                updateDisplay();
+            }
+        } catch(Exception exc) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Something went wrong while loading your file!");
+            alert.showAndWait();
+        } // TODO(mateusz): nie jestem pewien czy o taki handling chodziło
     }
 
     void setNestLimit(int l) {
@@ -77,32 +85,44 @@ public class ScenarioQualityCheckerGui extends Application {
     public void start(Stage primaryStage) {
 
         HBox root = new HBox();
-        root.setSpacing(20);
+        root.setSpacing(5);
+        root.setPadding(new Insets(10,10,10,10));
         VBox menu = new VBox();
         menu.setSpacing(20);
+        menu.setMinWidth(210);
+        menu.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+                + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+                + "-fx-border-radius: 5;"+ "-fx-border-color: grey;");
+
 
         Button chooseFile = new Button("Read scenario from file");
         chooseFile.setOnAction(e->readScenarioFromFile(primaryStage));
+        chooseFile.setMaxWidth(174);
         menu.getChildren().add(chooseFile);
 
         menu.getChildren().add(stepCount);
         menu.getChildren().add(keywordCount);
 
         VBox nestLimitBox = new VBox();
+        nestLimitBox.setSpacing(5);
         Text nestLimitLabel = new Text("Maximal nesting level:");
         // TODO(piotr): restrict input to valid values
         TextField nestLimitInput = new TextField();
+        nestLimitInput.setMaxWidth(174);
         Button nestLimit = new Button("Limit the nesting level");
+        nestLimit.setMaxWidth(174);
         nestLimit.setOnAction(e->{
             int l = Integer.parseInt(nestLimitInput.getText());
             setNestLimit(l);
         });
+
         nestLimitBox.getChildren().add(nestLimitLabel);
         nestLimitBox.getChildren().add(nestLimitInput);
         nestLimitBox.getChildren().add(nestLimit);
         menu.getChildren().add(nestLimitBox);
 
         Button listSteps = new Button("List incorrect steps");
+        listSteps.setMaxWidth(174);
         listSteps.setOnAction(e->{
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Incorrect Steps");
@@ -121,10 +141,20 @@ public class ScenarioQualityCheckerGui extends Application {
         });
         menu.getChildren().add(listSteps);
 
-        root.getChildren().add(menu);
-        root.getChildren().add(scenarioDisplay);
+        VBox scenarioTextVbox = new VBox();
+        scenarioTextVbox.prefWidthProperty().bind(primaryStage.widthProperty());
+        Text loadedScenario = new Text("Loaded scenario: ");
+        loadedScenario.setUnderline(true);
+        scenarioTextVbox.getChildren().add(loadedScenario);
+        scenarioTextVbox.getChildren().add(scenarioDisplay);
+        scenarioTextVbox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+                + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+                + "-fx-border-radius: 5;"+ "-fx-border-color: grey;");
 
-        Scene mainScene = new Scene(root, 800, 600);
+        root.getChildren().add(menu);
+        root.getChildren().add(scenarioTextVbox);
+
+        Scene mainScene = new Scene(root, 1024, 512);
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
