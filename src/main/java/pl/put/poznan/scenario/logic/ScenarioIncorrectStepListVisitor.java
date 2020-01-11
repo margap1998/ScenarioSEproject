@@ -17,6 +17,11 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
     }
     private boolean checkActorsInStep(Step step)
     {
+        if(step.name == null)
+        {
+            step.name = "";
+            return false;
+        }
         boolean res = false;
         for (String actor : actors)//foreach loop testing, if the step starts with actor
         {
@@ -28,6 +33,11 @@ public class ScenarioIncorrectStepListVisitor implements ScenarioElementVisitor
 
     private boolean checkKeywordAndActorInStep (Step step)
     {
+        if(step.name == null)
+        {
+            step.name = "";
+            return false;
+        }
         boolean resK = false;
         boolean resA = false;
         for (String keyword : Scenario.Keywords)//foreach loop testing, if the step starts with keyword
