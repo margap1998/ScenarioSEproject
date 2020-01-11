@@ -5,11 +5,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import java.util.Random;
 
-import static org.mockito.Mockito.when;
 
 public class KeywordCountTests
 {
@@ -19,50 +16,27 @@ public class KeywordCountTests
     public void init()
     {
         ri = new Random().nextInt(3);
-        String title = "tytuł";
-        String actor1 ="user";
-        String system ="System";
-        JSONObject mockJSON= Mockito.mock(JSONObject.class);
-        when(mockJSON.getString("title")).thenReturn(title);
-        JSONArray mockActors = Mockito.mock(JSONArray.class);
-        when(mockActors.length()).thenReturn(1);
-        when(mockActors.getString(0)).thenReturn(actor1);
-        when(mockJSON.getJSONArray("actors")).thenReturn(mockActors);
-        when(mockJSON.getString("system")).thenReturn(system);
-        JSONArray mockStepArray = Mockito.mock(JSONArray.class);
-        when(mockStepArray.length()).thenReturn(0);
-        when(mockJSON.getJSONArray("steps")).thenReturn(mockStepArray);
-        try
-        {
-            a = new Scenario(mockJSON);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        a = new Scenario();
+        a.title = "tytuł";
+        a.actors.add("user");
+        a.system ="System";
     }
     private void addPrimarySteps(int q, String text)
     {
-        JSONObject mockJSON = Mockito.mock(JSONObject.class);
-        JSONArray mockSubs = Mockito.mock(JSONArray.class);
-        when(mockSubs.length()).thenReturn(0);
-        when(mockJSON.getString("name")).thenReturn(text);
-        when(mockJSON.getJSONArray("substeps")).thenReturn(mockSubs);
         for(int i=0; i<q; i++)
         {
-            a.steps.add(new Step(mockJSON));
+            Step tmp = new Step();
+            tmp.name = text;
+            a.steps.add(tmp);
         }
     }
     private void addSecondarySteps(int which,int q, String text)
     {
-        JSONObject mockJSON = Mockito.mock(JSONObject.class);
-        JSONArray mockSubs = Mockito.mock(JSONArray.class);
-        when(mockSubs.length()).thenReturn(0);
-        when(mockJSON.getString("name")).thenReturn(text);
-        when(mockJSON.getJSONArray("substeps")).thenReturn(mockSubs);
         for(int i=0; i<q; i++)
         {
-            a.steps.get(which).substeps.add(new Step(mockJSON));
+            Step tmp = new Step();
+            tmp.name = text;
+            a.steps.get(which).substeps.add(tmp);
         }
     }
     private void addPrimarySteps(int q)

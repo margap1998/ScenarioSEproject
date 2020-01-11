@@ -1,7 +1,6 @@
 package pl.put.poznan.scenario.logic;
 
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
 
 public class IncorrectStepsTests
 {
@@ -11,9 +10,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "User does something on System";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertTrue(testVis.getIncorrectSteps().isEmpty());
     }
     @Test
@@ -22,9 +21,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "Andrzej does nothing on System";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertEquals(mockStep.name,testVis.getIncorrectSteps().get(0));
     }
     @Test
@@ -33,9 +32,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "IF: He does something on System";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertEquals(mockStep.name,testVis.getIncorrectSteps().get(0));
     }
     @Test
@@ -44,9 +43,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "ELSE: Darth Vader does something on System";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertEquals(mockStep.name,testVis.getIncorrectSteps().get(0));
     }
     @Test
@@ -55,9 +54,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "FOR EACH: xd lol";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertEquals(mockStep.name,testVis.getIncorrectSteps().get(0));
     }
 
@@ -67,9 +66,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "IF: User does something on System";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertTrue(testVis.getIncorrectSteps().isEmpty());
     }
     @Test
@@ -78,9 +77,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "ELSE: User gets back";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertTrue(testVis.getIncorrectSteps().isEmpty());
     }
     @Test
@@ -89,9 +88,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = "FOR EACH User System sleeps";
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertTrue(testVis.getIncorrectSteps().isEmpty());
     }
     @Test
@@ -100,9 +99,9 @@ public class IncorrectStepsTests
         ScenarioIncorrectStepListVisitor testVis = new ScenarioIncorrectStepListVisitor();
         testVis.actors.add("System");
         testVis.actors.add("User");
-        Step mockStep = Mockito.mock(Step.class);
+        Step mockStep = new Step();
         mockStep.name = null;
-        testVis.visit(mockStep);
+        mockStep.accept(testVis);
         Assertions.assertFalse(testVis.getIncorrectSteps().isEmpty());
     }
 }

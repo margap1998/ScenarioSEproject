@@ -15,6 +15,10 @@ class Step implements ScenarioElement {
     public ArrayList<Step> substeps;
 
     /**
+     * Constructor creating an empty Step object. Name is a empty String, and substeps are empty list.
+     */
+    public Step() {name = ""; substeps = new ArrayList<Step>();}
+    /**
      * Constructor creating a Step object from it's JSON representation
      * @param jo JSON representation of a step
      */
@@ -81,6 +85,18 @@ public class Scenario implements ScenarioElement {
      */
     public static String[] Keywords = {"FOR EACH","IF:","ELSE:"};
 
+    /**
+     * Constructor creating empty Scenario object.
+     * Title and system are empty strings.
+     * Actors and steps are empty lists
+     */
+    public Scenario()
+    {
+        title ="";
+        system ="";
+        actors=new ArrayList<String>();
+        steps=new ArrayList<Step>();
+    }
     /**
      * Constructor, creating a Scenario object from it's JSON representation
      * @param jo JSON representation of a scenario
