@@ -115,9 +115,7 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
-        <testSourceDirectory>src/test</testSourceDirectory>
-        <sourceDirectory>src/main</sourceDirectory>        
+        </plugins>  
     </build>
 
 

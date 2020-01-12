@@ -1,7 +1,5 @@
 package pl.put.poznan.scenario.logic;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,5 +123,33 @@ public class KeywordCountTests
         a.accept(test);
         Assertions.assertEquals(2,test.getResult());
     }
+    @Test
+    public void test2stepsNumbers()
+    {
+        ScenarioKeywordCountVisitor test = new ScenarioKeywordCountVisitor();
+        addPrimarySteps(1,"110");
+        addPrimarySteps(1,"941213274");
+        a.accept(test);
+        Assertions.assertEquals(0,test.getResult());
+    }
+    @Test
+    public void test2stepsKeywordsInOtherWords()
+    {
+        ScenarioKeywordCountVisitor test = new ScenarioKeywordCountVisitor();
+        addPrimarySteps(1,"IFFINESS");
+        addPrimarySteps(1,"ELSEWHERE");
+        a.accept(test);
+        Assertions.assertEquals(0,test.getResult());
+    }
+    @Test
+    public void testFOREACHTogether()
+    {
+        ScenarioKeywordCountVisitor test = new ScenarioKeywordCountVisitor();
+        addPrimarySteps(1,"FOREACH");
+        a.accept(test);
+        Assertions.assertEquals(0,test.getResult());
+
+    }
+
 }
 
