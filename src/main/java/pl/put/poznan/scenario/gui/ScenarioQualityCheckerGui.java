@@ -63,22 +63,36 @@ public class ScenarioQualityCheckerGui extends Application {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Something went wrong while loading your file!");
+            alert.setContentText("Loaded file is empty! Please, load a file with the scenario!");
             alert.showAndWait();
-        } // TODO(mateusz): nie jestem pewien czy o taki handling chodziło
+        }
     }
 
     void setNestLimit(int l) {
         try {
             Scenario tempScenario = new Scenario(processedScenario.toJSON());
 
-            ScenarioNestLimitVisitor v1 = new ScenarioNestLimitVisitor(l);
-            tempScenario.accept(v1);
+            ScenarioDeepnessMeterVisitor v0 = new ScenarioDeepnessMeterVisitor();
+            tempScenario.accept(v0);
+            int nestLevel = v0.getDeepest();
+            if( l >= 0 && l <= nestLevel) {
 
-            ScenarioToTextVisitor v2 = new ScenarioToTextVisitor();
-            tempScenario.accept(v2);
-            scenarioDisplay.setText(v2.getResult());
-        } catch(Exception exc) {} // TODO(piotr): handle errors
+                ScenarioNestLimitVisitor v1 = new ScenarioNestLimitVisitor(l);
+                tempScenario.accept(v1);
+
+                ScenarioToTextVisitor v2 = new ScenarioToTextVisitor();
+                tempScenario.accept(v2);
+                scenarioDisplay.setText(v2.getResult());
+            } else {
+                throw new Exception();
+            }
+        } catch(Exception exc) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Wrong nesting limit! Please, enter a valid nesting limit number!");
+            alert.showAndWait();
+        }
     }
 
     @Override
@@ -106,7 +120,6 @@ public class ScenarioQualityCheckerGui extends Application {
         VBox nestLimitBox = new VBox();
         nestLimitBox.setSpacing(5);
         Text nestLimitLabel = new Text("Maximal nesting level:");
-        // TODO(piotr): restrict input to valid values
         TextField nestLimitInput = new TextField();
         nestLimitInput.setMaxWidth(174);
         Button nestLimit = new Button("Limit the nesting level");

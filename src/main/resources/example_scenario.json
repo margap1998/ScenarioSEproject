@@ -1,5 +1,5 @@
 {
-    "title": "Dodanie ksiÄ…Å¼ki",
+    "title": "Dodanie ksi¹¿ki",
     "actors": [
         "Bibliotekarz"
     ],
@@ -7,19 +7,19 @@
 
     "steps": [
         {
-            "name": "Bibliotekarz wybiera opcje dodania nowej pozycji ksiÄ…Å¼kowej"
+            "name": "Bibliotekarz wybiera opcje dodania nowej pozycji ksi¹¿kowej"
         },
         {
-            "name": "WyÅ›wietla siÄ™ formularz."
+            "name": "Wyœwietla siê formularz."
         },
         {
-            "name": "Bibliotekarz podaje dane ksiÄ…Å¼ki."
+            "name": "Bibliotekarz podaje dane ksi¹¿ki."
         },
         {
-            "name": "IF: Bibliotekarz pragnie dodaÄ‡ egzemplarze ksiÄ…Å¼ki",
+            "name": "IF: Bibliotekarz pragnie dodaæ egzemplarze ksi¹¿ki",
             "substeps": [
                 {
-                    "name": "Bibliotekarz wybiera opcjÄ™ definiowania egzemplarzy"
+                    "name": "Bibliotekarz wybiera opcjê definiowania egzemplarzy"
                 },
                 {
                     "name": "System prezentuje zdefiniowane egzemplarze"
@@ -28,7 +28,7 @@
                     "name": "FOR EACH egzemplarz:",
                     "substeps": [
                         {
-                            "name": "Bibliotekarz wybiera opcjÄ™ dodania egzemplarza"
+                            "name": "Bibliotekarz wybiera opcjê dodania egzemplarza"
                         },
                         {
                             "name": "System prosi o podanie danych egzemplarza"
@@ -37,17 +37,17 @@
                             "name": "Bibliotekarz podaje dane egzemplarza i zatwierdza."
                         },
                         {
-                            "name": "System informuje o poprawnym dodaniu egzemplarza i prezentuje zaktualizowanÄ… listÄ™ egzemplarzy."
+                            "name": "System informuje o poprawnym dodaniu egzemplarza i prezentuje zaktualizowan¹ listê egzemplarzy."
                         }
                     ]
                 }
             ]
         },
         {
-            "name": "Bibliotekarz zatwierdza dodanie ksiÄ…Å¼ki."
+            "name": "Bibliotekarz zatwierdza dodanie ksi¹¿ki."
         },
         {
-            "name": "System informuje o poprawnym dodaniu ksiÄ…Å¼ki."
+            "name": "System informuje o poprawnym dodaniu ksi¹¿ki."
         }
     ] 
 }
