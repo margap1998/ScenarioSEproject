@@ -18,6 +18,12 @@ class Step implements ScenarioElement {
      * Constructor creating an empty Step object. Name is a empty String, and substeps are empty list.
      */
     public Step() {name = ""; substeps = new ArrayList<Step>();}
+
+    /**
+     * Constructor creating 1 step with name, without substeps
+     * @param n Name of the step
+     */
+    public Step(String n) {name = n; substeps = new ArrayList<Step>();}
     /**
      * Constructor creating a Step object from it's JSON representation
      * @param jo JSON representation of a step
