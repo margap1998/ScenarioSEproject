@@ -28,3 +28,7 @@ Dla analityków dokumentujących wymagania funkcjonalne za pomocą scenariuszy n
 * Bibliotekarz zatwierdza dodanie książki.
 * System informuje o poprawnym dodaniu książki.
  
+
+
+## Linki
+https://www.travis-ci.org/margap1998/ScenarioSEproject
