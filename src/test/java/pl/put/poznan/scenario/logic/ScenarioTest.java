@@ -147,4 +147,81 @@ public class ScenarioTest
             }
         }
     }
+
+    @Test
+    public void invalidScenarioClear()
+    {
+        Exception ex = Assertions.assertThrows(Exception.class, ()->{
+            String title = "tytuł";
+            String actor1 ="user";
+            String system ="System";
+
+            mockJSON = Mockito.mock(JSONObject.class);
+            Scenario a = new Scenario(mockJSON);
+        });
+    }
+
+    @Test
+    public void invalidScenarioOnlyTitle()
+    {
+        Exception ex = Assertions.assertThrows(Exception.class, () -> {
+            String title = "tytuł";
+            String actor1 = "user";
+            String system = "System";
+
+            mockJSON = Mockito.mock(JSONObject.class);
+            when(mockJSON.getString("title")).thenReturn(title);
+            Scenario a = new Scenario(mockJSON);
+        });
+    }
+
+    @Test
+    public void invalidScenarioOnlySystem()
+    {
+        Exception ex = Assertions.assertThrows(Exception.class, () -> {
+            String title = "tytuł";
+            String actor1 = "user";
+            String system = "System";
+
+            mockJSON = Mockito.mock(JSONObject.class);
+            when(mockJSON.getString("system")).thenReturn(system);
+            Scenario a = new Scenario(mockJSON);
+        });
+    }
+
+    @Test
+    public void invalidScenarioOnlySystemAndTitle()
+    {
+        Exception ex = Assertions.assertThrows(Exception.class, () -> {
+            String title = "tytuł";
+            String actor1 = "user";
+            String system = "System";
+
+            mockJSON = Mockito.mock(JSONObject.class);
+            when(mockJSON.getString("system")).thenReturn(system);
+            when(mockJSON.getString("title")).thenReturn(title);
+            Scenario a = new Scenario(mockJSON);
+        });
+    }
+
+    @Test
+    public void invalidScenarioOnlyHeader()
+    {
+        Exception ex = Assertions.assertThrows(Exception.class, () -> {
+            String title = "tytuł";
+            String actor1 = "user";
+            String system = "System";
+
+            mockActors = Mockito.mock(JSONArray.class);
+            when(mockActors.length()).thenReturn(1);
+            when(mockActors.getString(0)).thenReturn(actor1);
+
+            mockJSON = Mockito.mock(JSONObject.class);
+            when(mockJSON.getString("title")).thenReturn(title);
+            when(mockJSON.getJSONArray("actors")).thenReturn(mockActors);
+            when(mockJSON.getString("system")).thenReturn(system);
+            when(mockJSON.getJSONArray("steps")).thenThrow(new Exception());
+            Scenario a = new Scenario(mockJSON);
+        });
+    }
 }
