@@ -3,6 +3,6 @@ set MVN_HOME = C:\apache-maven-3.6.2\bin
 
 call mvn compile
 call mvn test
-call javadoc:javadoc
+call mvn javadoc:javadoc
 
 @echo on
