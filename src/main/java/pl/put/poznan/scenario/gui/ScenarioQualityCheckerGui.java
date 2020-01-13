@@ -125,8 +125,19 @@ public class ScenarioQualityCheckerGui extends Application {
         Button nestLimit = new Button("Limit the nesting level");
         nestLimit.setMaxWidth(174);
         nestLimit.setOnAction(e->{
-            int l = Integer.parseInt(nestLimitInput.getText());
-            setNestLimit(l);
+			try
+			{
+				int l = Integer.parseInt(nestLimitInput.getText());
+				setNestLimit(l);
+			}
+			catch(Exception exc1)
+			{
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText(null);
+				alert.setContentText("This is not a integer number");
+				alert.showAndWait();
+			}
         });
 
         nestLimitBox.getChildren().add(nestLimitLabel);
