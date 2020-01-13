@@ -32,3 +32,12 @@ Dla analityków dokumentujących wymagania funkcjonalne za pomocą scenariuszy n
 
 ## Linki
 https://www.travis-ci.org/margap1998/ScenarioSEproject
+
+
+# Kompilacja:
+   ### Wymagania:
+      * Java 8
+      * Apache Maven
+   ### Instrukcja:
+      Do budoway pod Windowsem użyj pliku "build.bat".
+      Po kompilacji uruchom plikiem "run.bat".
